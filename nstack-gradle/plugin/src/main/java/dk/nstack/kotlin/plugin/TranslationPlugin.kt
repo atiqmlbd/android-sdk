@@ -7,7 +7,7 @@ import groovy.xml.MarkupBuilder
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class TranslationPlugin implements Plugin<Project> {
+class TranslationPlugin : Plugin<Project> {
 
     public static final String GROUP_NAME = "nstack"
     public static
@@ -112,7 +112,7 @@ class TranslationPlugin implements Plugin<Project> {
         if (translations.containsKey(string)) {
             return translations[string]
         } else {
-            throw new Exception("Unable to locate a translation for $string, please check acceptHeader in project build.gradle \n\rCurrent available locales $availableLanguages")
+            throw new Exception("Unable to locate a translation for $string, please check acceptHeader in project build.gradle.kts \n\rCurrent available locales $availableLanguages")
         }
     }
 

@@ -47,6 +47,7 @@ class NStackContentProvider : ContentProvider() {
                         env
                 )
                 log("Init success")
+            } else {
             }
         } catch (e: PackageManager.NameNotFoundException) {
             Log.e(TAG, "Failed to load meta-data, NameNotFound: " + e.message)
