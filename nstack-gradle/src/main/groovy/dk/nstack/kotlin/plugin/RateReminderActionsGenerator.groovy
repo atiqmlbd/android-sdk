@@ -6,6 +6,7 @@ class RateReminderActionsGenerator {
 
     static String generateActions(String packageName) {
         def url = TranslationPlugin.project.translation.contentUrl + "api/v2/notify/rate_reminder_v2/actions"
+
         def actionsJson = Util.getTextFromUrlWithErrorResponse(url)
         if (actionsJson.isEmpty()) {
             return ""

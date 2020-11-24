@@ -1,9 +1,4 @@
-import Versions
-import Properties
-import org.jetbrains.dokka.gradle.DokkaTask
-
 buildscript {
-
     // Username & password for Sonatype, stored in gradle.properties
     val VERSION_NAME = Versions.VERSION_NAME
     val _OSSRH_USERNAME = System.getenv("NEXUS_USERNAME")
@@ -24,13 +19,13 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:3.6.1")
+        classpath("com.android.tools.build:gradle:4.1.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin_version}")
         classpath("dk.nodes.nstack:translation:3.2.5")
         classpath("dk.nodes.ci:bitrise:1.1")
         classpath("org.jetbrains.dokka:dokka-android-gradle-plugin:${Versions.dokkaVersion}")
         classpath("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.1")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.1")
         classpath("digital.wup:android-maven-publish:3.6.2")
         classpath("org.koin:koin-gradle-plugin:${Versions.koin_version}")
     }
@@ -39,6 +34,7 @@ buildscript {
 plugins {
     id("com.diffplug.gradle.spotless") version "3.23.1"
     id("io.codearte.nexus-staging") version "0.21.0"
+    id("org.jetbrains.dokka") version "1.4.10.2"
 }
 
 allprojects {
@@ -68,19 +64,8 @@ subprojects {
     group = Properties.GROUP
     version = Versions.VERSION_NAME
 
-    plugins {
-        id("org.jetbrains.dokka") version "1.4.10.2"
-        id("com.diffplug.gradle.spotless")
-
-    }
-
-
-    val dokka by tasks.getting(DokkaTask::class) {
-        reportUndocumented = false
-        outputFormat = "html"
-        outputDirectory = "$buildDir/javadoc"
-    }
-    defaultTasks("dokka")
+    apply(plugin = "org.jetbrains.dokka")
+    apply(plugin = "com.diffplug.gradle.spotless")
 
     configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         kotlin {
@@ -94,15 +79,15 @@ subprojects {
             googleJavaFormat("1.1").aosp()
         }
 
-        format ("groovy") {
+        format("groovy") {
             target("**/*.groovy")
             indentWithTabs()
             indentWithSpaces(4)
             endWithNewline()
         }
 
-        format ("misc") {
-            target ("'**/*.gradle")
+        format("misc") {
+            target("'**/*.gradle")
             trimTrailingWhitespace()
             indentWithSpaces(4)
             endWithNewline()
@@ -110,11 +95,11 @@ subprojects {
     }
 }
 
-fun getRepositoryUsername(): String {
+fun getRepositoryUsername(): String? {
     return System.getenv("NEXUS_USERNAME")
 }
 
-fun getRepositoryPassword(): String {
+fun getRepositoryPassword(): String? {
     return System.getenv("NEXUS_PASSWORD")
 }
 

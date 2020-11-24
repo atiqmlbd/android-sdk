@@ -92,7 +92,7 @@ class NStackContentProvider : ContentProvider() {
             NLog.d(TAG, "Unable to get the BuildConfig, is this built with ANT?")
             e.printStackTrace()
         } catch (e: NoSuchFieldException) {
-            NLog.d(TAG, "$fieldName is not a valid field. Check your build.gradle")
+            NLog.d(TAG, "$fieldName is not a valid field. Check your build.gradle.kts.kts")
         } catch (e: IllegalAccessException) {
             NLog.d(TAG, "Illegal Access Exception: Let's print a stack trace.")
             e.printStackTrace()

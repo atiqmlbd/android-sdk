@@ -5,18 +5,17 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
-apply(plugin = "androidx.navigation.safeargs.kotlin")
 
-apply(plugin = TranslationPlugin())
 
-translation {
-    appId = "dTyz7mezul3YJliMtsoM3z8ZhmWqDR8kJLbF"
-    apiKey = "PtmtXCGzgiKGkGrCKoRgFh0JK0uz8AUMLnGS"
-    acceptHeader = "en-US"
-    contentUrl = "https://nstack-staging.vapor.cloud/"
-}
+//translation {
+//    appId = "dTyz7mezul3YJliMtsoM3z8ZhmWqDR8kJLbF"
+//    apiKey = "PtmtXCGzgiKGkGrCKoRgFh0JK0uz8AUMLnGS"
+//    acceptHeader = "en-US"
+//    contentUrl = "https://nstack-staging.vapor.cloud/"
+//}
 
 android {
     signingConfigs {
@@ -48,19 +47,17 @@ android {
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
 
 
-        manifestPlaceholders = mapOf(
-                "appId" to translation.appId,
-                "apiKey" to translation.apiKey
-        )
+       manifestPlaceholders["appId"] = "dTyz7mezul3YJliMtsoM3z8ZhmWqDR8kJLbF"
+       manifestPlaceholders["apiKey"] = "PtmtXCGzgiKGkGrCKoRgFh0JK0uz8AUMLnGS"
 
 
     }
     buildTypes {
         named("debug") {
-            manifestPlaceholders.putAll(mapOf("env" to "staging"))
+            manifestPlaceholders["env"] =  "staging"
         }
         named("release") {
-            manifestPlaceholders.putAll(mapOf("env" to "production"))
+            manifestPlaceholders["env"] = "production"
             isMinifyEnabled = false
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
         }

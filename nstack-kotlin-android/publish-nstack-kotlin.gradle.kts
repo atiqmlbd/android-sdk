@@ -1,43 +1,45 @@
-apply plugin: 'signing'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
-
-jar {
-    manifest {
-        attributes 'Implementation-Title': TRANSLATION_NAME, 'Implementation-Version': VERSION_NAME
-    }
+plugins {
+    `kotlin-dsl`
+    `kotlin-dsl-precompiled-script-plugins`
+    id("signing")
+    id("maven-publish")
+    id("digital.wup.android-maven-publish")
 }
 
 afterEvaluate {
 
-    task sourcesJar(type: Jar) {
-        archiveClassifier.set('sources')
-        from sourceSets.main.allSource
+    task androidJavadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.sourceFiles
+        classpath.add(project.files(android.getBootClasspath().join(File.pathSeparator)))
+        classpath.add(configurations.compile)
     }
 
-    task javadocJar(type: Jar) {
-        archiveClassifier.set('javadoc')
-        from javadoc
+    task androidJavadocJar(type: Jar, dependsOn: androidJavadoc) {
+        archiveClassifier.set("javadoc")
+        from androidJavadoc.destinationDir
+    }
+
+    task androidSourcesJar(type: Jar) {
+        archiveClassifier.set("sources")
+        from android.sourceSets.main.java.sourceFiles
     }
 
     publishing {
         publications {
-            nstackTranslationPluginJar(MavenPublication) {
+            nstackKotlinAar(MavenPublication) {
 
-                artifact sourcesJar
-                artifact javadocJar
-                from components.java
+                artifact androidSourcesJar
+                artifact androidJavadocJar
+                from components.android
 
                 pom {
-                    name = TRANSLATION_NAME
-                    packaging = TRANSLATION_PACKAGING
-                    artifactId = TRANSLATION_ARTIFACT_ID
-                    description = TRANSLATION_DESCRIPTION
-
+                    artifactId = POM_ARTIFACT_ID
+                    name = POM_NAME
+                    packaging = POM_PACKAGING
                     groupId = GROUP
+                    description = POM_DESCRIPTION
                     version = VERSION_NAME
-                    url = TRANSLATION_URL
-
+                    url = POM_URL
                     inceptionYear = POM_INCEPTION_YEAR
 
                     licenses {
@@ -79,12 +81,20 @@ afterEvaluate {
             }
         }
 
+        if (JavaVersion.current().isJava8Compatible()) {
+            allprojects {
+                tasks.withType(Javadoc) {
+                    options.addStringOption("Xdoclint:none", "-quiet")
+                }
+            }
+        }
+
         signing {
             required {
                 return isSigningRequired()
             }
 
-            sign publishing.publications.nstackTranslationPluginJar
+            sign publishing.publications.nstackKotlinAar
         }
     }
 }
