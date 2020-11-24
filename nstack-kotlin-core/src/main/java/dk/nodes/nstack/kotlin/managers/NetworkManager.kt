@@ -124,7 +124,6 @@ class NetworkManager(
                 Result.Success(gson.fromJson(it, AppOpen::class.java))
             } ?: Result.Error(Error.UnknownError)
         } else Result.Error(Error.UnknownError)
-
     } catch (e: IOException) {
         Result.Error(Error.NetworkError)
     } catch (e: Exception) {

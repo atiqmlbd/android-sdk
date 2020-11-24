@@ -10,12 +10,12 @@ jar {
 
 afterEvaluate {
 
-    task sourcesJar(type: Jar) {
+    task sourcesJar (type: Jar) {
     archiveClassifier.set("sources")
-    from sourceSets.main.allSource
+    from sourceSets . main . allSource
 }
 
-    task javadocJar(type: Jar) {
+    task javadocJar (type: Jar) {
     archiveClassifier.set("javadoc")
     from javadoc
 }
@@ -26,7 +26,7 @@ afterEvaluate {
 
                 artifact sourcesJar
                         artifact javadocJar
-                        from components.java
+                        from components . java
 
                         pom {
                             name = TRANSLATION_NAME
@@ -84,7 +84,7 @@ afterEvaluate {
                 return isSigningRequired()
             }
 
-            sign publishing.publications.nstackTranslationPluginJar
+            sign publishing . publications . nstackTranslationPluginJar
         }
     }
 }

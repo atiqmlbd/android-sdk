@@ -14,22 +14,20 @@ android {
         targetSdkVersion(29)
         versionCode = 230
         versionName = Versions.VERSION_NAME
-        manifestPlaceholders.putAll(mapOf(
+        manifestPlaceholders += mapOf(
                 "appId" to "placeholder",
                 "apiKey" to "placeholder",
-                "env" to "production"))
+                "env" to "production")
         buildConfigField("String", "SDK_VERSION", "\"$Versions.VERSION_NAME\"")
     }
-    testOptions {
-        unitTests.apply {
-            isReturnDefaultValues = true
-        }
+    testOptions.unitTests.apply {
+        isReturnDefaultValues = true
     }
 }
 
 dependencies {
-    lintChecks(project(":nstack-kotlin-android-lint"))
-    lintPublish(project(":nstack-kotlin-android-lint"))
+//    lintChecks(project(":nstack-kotlin-android-lint"))
+//    lintPublish(project(":nstack-kotlin-android-lint"))
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
     implementation(kotlin("reflect", version = "${Versions.kotlin_version}"))
     api(project(":nstack-kotlin-core"))

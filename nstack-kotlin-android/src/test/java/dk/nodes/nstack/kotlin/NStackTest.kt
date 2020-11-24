@@ -329,7 +329,6 @@ internal class NStackTest {
             coEvery { networkManagerMock.loadTranslation("https://nstack-staging.vapor.cloud/api/v2/content/localize/resources/249") } returns translations2.toString()
             coEvery { networkManagerMock.loadTranslation("https://nstack-staging.vapor.cloud/api/v2/content/localize/resources/307") } returns translations3.toString()
 
-
             every { nstackMeta.appIdKey } returns appId
             every { nstackMeta.apiKey } returns apiKey
             every { nstackMeta.env } returns env

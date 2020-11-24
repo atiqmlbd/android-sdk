@@ -1,4 +1,5 @@
 import Versions.lintVersion
+
 plugins {
     java
     kotlin("jvm")

@@ -21,7 +21,6 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:4.1.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin_version}")
-        classpath("dk.nodes.nstack:translation:3.2.5")
         classpath("dk.nodes.ci:bitrise:1.1")
         classpath("org.jetbrains.dokka:dokka-android-gradle-plugin:${Versions.dokkaVersion}")
         classpath("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.1")
@@ -32,14 +31,14 @@ buildscript {
 }
 
 plugins {
-    id("com.diffplug.gradle.spotless") version "3.23.1"
+    id("com.diffplug.spotless") version "5.8.2"
     id("io.codearte.nexus-staging") version "0.21.0"
     id("org.jetbrains.dokka") version "1.4.10.2"
 }
 
 allprojects {
 
-    if (JavaVersion.current().isJava8Compatible()) {
+    if (JavaVersion.current().isJava8Compatible) {
         tasks.withType<Javadoc> {
             (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
         }
@@ -65,7 +64,7 @@ subprojects {
     version = Versions.VERSION_NAME
 
     apply(plugin = "org.jetbrains.dokka")
-    apply(plugin = "com.diffplug.gradle.spotless")
+    apply(plugin = "com.diffplug.spotless")
 
     configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         kotlin {
@@ -77,13 +76,6 @@ subprojects {
             target("**/*.java")
             targetExclude("**/Translation.java")
             googleJavaFormat("1.1").aosp()
-        }
-
-        format("groovy") {
-            target("**/*.groovy")
-            indentWithTabs()
-            indentWithSpaces(4)
-            endWithNewline()
         }
 
         format("misc") {
@@ -109,4 +101,21 @@ nexusStaging {
     username = getRepositoryUsername()
     password = getRepositoryPassword()
     delayBetweenRetriesInMillis = 30000
+}
+
+tasks {
+
+    val plugin by registering(GradleBuild::class) {
+        dir = file("nstack-gradle")
+        tasks = listOf("publish")
+    }
+
+    val demo by registering(GradleBuild::class) {
+        dir = file("demo")
+        tasks = listOf("myCopyTask")
+    }
+
+    demo {
+        dependsOn(plugin)
+    }
 }

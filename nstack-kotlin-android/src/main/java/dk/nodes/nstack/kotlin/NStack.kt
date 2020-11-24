@@ -173,12 +173,12 @@ object NStack {
     }
 
     internal fun initInternal(
-            context: Context,
-            debugMode: Boolean,
-            appId: String,
-            apiKey: String,
-            env: String,
-            vararg plugin: Any
+        context: Context,
+        debugMode: Boolean,
+        appId: String,
+        apiKey: String,
+        env: String,
+        vararg plugin: Any
     ) {
         NLog.i(this, "NStack initializing")
         if (isInitialized) {
@@ -235,8 +235,6 @@ object NStack {
         ProcessLifecycleOwner.get().lifecycle.coroutineScope.launchWhenCreated {
             appOpenConsumable = withContext(Dispatchers.IO) { appOpen() }
         }
-
-
     }
 
     private var appOpenConsumable by consumable<Result<AppOpen>>()

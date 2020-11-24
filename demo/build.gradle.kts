@@ -1,4 +1,3 @@
-import dk.nstack.kotlin.plugin.TranslationPlugin
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
@@ -6,11 +5,10 @@ plugins {
     kotlin("android")
     kotlin("android.extensions")
     id("androidx.navigation.safeargs.kotlin")
+//    id("nstack.gradle") version Versions.VERSION_NAME
 }
 
-
-
-//translation {
+//configure<TranslationPlugin> {
 //    appId = "dTyz7mezul3YJliMtsoM3z8ZhmWqDR8kJLbF"
 //    apiKey = "PtmtXCGzgiKGkGrCKoRgFh0JK0uz8AUMLnGS"
 //    acceptHeader = "en-US"
