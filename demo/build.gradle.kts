@@ -1,14 +1,10 @@
 import dk.nstack.kotlin.plugin.TranslationPlugin
 
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
-apply plugin: "androidx.navigation.safeargs.kotlin"
-
-apply plugin: TranslationPlugin
+apply(plugin = "com.android.application")
+apply(plugin = "kotlin-android")
+apply(plugin = "kotlin-android-extensions")
+apply(plugin = "androidx.navigation.safeargs.kotlin")
+apply(plugin = TranslationPlugin)
 
 translation {
     appId = "dTyz7mezul3YJliMtsoM3z8ZhmWqDR8kJLbF"
@@ -20,18 +16,18 @@ translation {
 android {
     signingConfigs {
         release {
-            storePassword 'test1234'
-            keyAlias = 'key_test'
-            keyPassword 'test1234'
-            storeFile file('/Users/lucassales/StudioProjects/nstack-kotlin/demo/keystore')
+            storePassword("test1234")
+            keyAlias = "key_test"
+            keyPassword("test1234")
+            storeFile file ("/Users/lucassales/StudioProjects/nstack-kotlin/demo/keystore")
         }
     }
-    compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    compileSdkVersion(29)
+    buildToolsVersion("29.0.3")
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility(JavaVersion.VERSION_1_8)
+        targetCompatibility(JavaVersion.VERSION_1_8)
     }
 
     kotlinOptions {
@@ -39,38 +35,40 @@ android {
     }
 
     defaultConfig {
-        applicationId "dk.nodes.nstack.nstackkotlintest"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        applicationId("dk.nodes.nstack.nstackkotlintest")
+        minSdkVersion(21)
+        targetSdkVersion(29)
+        versionCode(1)
+        versionName("1.0")
+        testInstrumentationRunner("android.support.test.runner.AndroidJUnitRunner")
 
 
         manifestPlaceholders = [
-                appId : translation.appId,
-                apiKey: translation.apiKey,
+            appId : translation.appId,
+        apiKey: translation.apiKey,
         ]
 
     }
     buildTypes {
         debug {
             manifestPlaceholders = [
-                    env: 'staging'
+                env: 'staging'
             ]
         }
         release {
             manifestPlaceholders = [
-                    env: 'production'
+                env: 'production'
             ]
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile ('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation(project(mapOf("path" to ":")))
+    implementation(project(mapOf("path" to ":")))
+    implementation fileTree (dir: 'libs', include: ['*.jar'])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
@@ -89,7 +87,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
 
 
-    implementation project(':nstack-kotlin-android')
+    implementation project (':nstack-kotlin-android')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
