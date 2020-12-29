@@ -8,11 +8,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import dk.nodes.nstack.demo.R
-import dk.nodes.nstack.demo.Translation
 import dk.nodes.nstack.kotlin.NStack
 import dk.nodes.nstack.kotlin.models.RateReminderAnswer
 import kotlinx.android.synthetic.main.fragment_ratereminder.*
-import kotlinx.coroutines.launch
 
 class RateReminderFragment : Fragment(R.layout.fragment_ratereminder) {
 

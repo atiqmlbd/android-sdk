@@ -7,12 +7,10 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dk.nodes.nstack.demo.R
-import dk.nodes.nstack.demo.Translation
 import kotlinx.android.synthetic.main.fragment_terms.*
 
 const val TERMS_ID = 3L

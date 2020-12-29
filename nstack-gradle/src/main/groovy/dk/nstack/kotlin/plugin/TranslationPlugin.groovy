@@ -13,6 +13,8 @@ class TranslationPlugin implements Plugin<Project> {
     public static
     final String JAVA_SOURCE_PATH = "${File.separator}src${File.separator}main${File.separator}java"
     public static final String TRANSLATION_FILE_NAME = "Translation.java"
+    public static final String CONFIG_FILE_NAME = "nstack-config.json"
+
     public static final String RATE_REMINDER_ACTIONS_FILE_NAME = "RateReminderActions.kt"
 
     def pathPrefix = ""
@@ -41,7 +43,7 @@ class TranslationPlugin implements Plugin<Project> {
 
             // If we have auto run update then we should run it :D
 
-            doLast {
+            doFirst {
                 ensureProjectProperties()
                 generateTranslationClass()
             }
@@ -50,7 +52,7 @@ class TranslationPlugin implements Plugin<Project> {
         project.task('generateRateReminderActions') {
             group GROUP_NAME
 
-            doLast {
+            doFirst {
                 ensureProjectProperties()
                 generateRateReminderActions()
             }
@@ -62,6 +64,50 @@ class TranslationPlugin implements Plugin<Project> {
                 generateRateReminderActions()
             }
         }
+    }
+
+    private static void findConfigFile() {
+        String translationFileName = TRANSLATION_FILE_NAME.toLowerCase()
+        String configFileName = CONFIG_FILE_NAME.toLowerCase()
+        String translationClassPath = null
+        String configClassPath = null
+        String parent = null
+        File searchPath = new File(project.projectDir, JAVA_SOURCE_PATH)
+
+        searchPath.eachFileRecurse { file ->
+            String filePath = file.path
+            if (filePath.toLowerCase().contains(translationFileName)) {
+                Log.debug("Translation Class Path -> " + filePath)
+                translationClassPath = filePath
+            } else if (filePath.toLowerCase().contains(configFileName)) {
+                Log.debug("Config Class Path -> " + filePath)
+                Log.debug("Parent -> " + file.parentFile.path)
+                configClassPath = filePath
+                parent = file.parent
+
+            }
+        }
+
+        Log.debug(translationClassPath)
+
+        if (configClassPath == null) {
+            throw Exception("Unable to tra config file")
+        }
+
+        if (translationClassPath == null) {
+            Log.debug("Relative Path: " + parent)
+            def newFile = new File(parent + "${File.separator}" + TRANSLATION_FILE_NAME)
+            newFile.createNewFile()
+            translationClassPath = newFile.path
+        }
+
+        String possibleModelPath = translationClassPath
+
+        Log.info("Possible Model path: " + possibleModelPath)
+
+        project.translation.modelPath = possibleModelPath
+        project.translation.classPath = translationClassPath
+        project.translation.configPath = configFileName
     }
 
     private static void ensureProjectProperties() {
@@ -98,7 +144,8 @@ class TranslationPlugin implements Plugin<Project> {
 
         Map translations = AssetManager.saveAllTranslationsToAssets()
 
-        getTranslationPath()
+        findConfigFile()
+//        getTranslationPath()
         Map languageObject = getTranslationForLocale(translations, acceptHeader)
         generateStringsResource(languageObject)
         generateJavaClass(languageObject)
@@ -112,6 +159,9 @@ class TranslationPlugin implements Plugin<Project> {
         if (translations.containsKey(string)) {
             return translations[string]
         } else {
+            new File('/Users/me/Downloads', 'myImage.gif').withOutputStream { os ->
+                os << new URL("http://i.imgur.com/pszAeGh.png").openStream()
+            }
             throw new Exception("Unable to locate a translation for $string, please check acceptHeader in project build.gradle \n\rCurrent available locales $availableLanguages")
         }
     }

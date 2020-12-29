@@ -69,3 +69,5 @@ freeline/
 freeline_project_description.json
 
 sample/
+demo/src/main/java/dk/nodes/nstack/demo/Translation.java
+demo/src/main/res/values/nstack_keys.xml
