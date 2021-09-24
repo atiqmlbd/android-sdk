@@ -37,7 +37,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.1'
+        classpath 'com.android.tools.build:gradle:7.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "dk.nodes.nstack:translation:3.2.5"
         classpath 'dk.nodes.ci:bitrise:1.1'

@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 230
-        versionName VERSION_NAME
         manifestPlaceholders = [appId: "placeholder", apiKey: "placeholder", env: "production"]
         buildConfigField "String", "SDK_VERSION", "\"$VERSION_NAME\""
     }
@@ -28,7 +26,7 @@ android {
 
 dependencies {
     lintChecks project(':nstack-kotlin-android-lint')
-    lintPublish project(':nstack-kotlin-android-lint')
+    runtimeOnly project(':nstack-kotlin-android-lint')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     api project(':nstack-kotlin-core')
